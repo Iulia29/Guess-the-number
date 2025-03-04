@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guess the Number</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f3f4f6;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .game-container {
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      width: 300px;
+    }
+
+    h1 {
+      font-size: 24px;
+      color: #333;
+    }
+
+    input {
+      padding: 10px;
+      font-size: 16px;
+      margin: 10px 0;
+      width: 80%;
+      border-radius: 5px;
+      border: 1px solid #ddd;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    #result {
+      margin-top: 20px;
+      font-size: 18px;
+    }
+
+    #hint {
+      margin-top: 10px;
+      font-size: 16px;
+      color: #777;
+    }
+  </style>
+</head>
+<body>
+  <div class="game-container">
+    <h1>Guess the Number!</h1>
+    <p>Enter a number between 1 and 100:</p>
+    <input type="number" id="user-input" min="1" max="100">
+    <button onclick="checkGuess()">Check</button>
+    <p id="result"></p>
+    <p id="hint"></p>
+  </div>
+
+  <script>
+    // Randomly generated correct number
+    const correctNumber = Math.floor(Math.random() * 100) + 1;
+    let attempts = 0;
+    let minRange = 1;
+    let maxRange = 100;
+
+    // Function to check user's guess
+    function checkGuess() {
+      const userInput = document.getElementById('user-input').value;
+      const result = document.getElementById('result');
+      const hint = document.getElementById('hint');
+
+      // Check if the input is valid
+      if (userInput === '') {
+        result.textContent = 'Please enter a number!';
+        result.style.color = 'red';
+      } else {
+        const guess = parseInt(userInput);
+        attempts++;
+
+        if (guess < correctNumber) {
+          result.textContent = 'The number is too low! Try again.';
+          result.style.color = 'orange';
+          minRange = guess + 1; // Update min range
+          hint.textContent = `Hint: The number is between ${minRange} and ${maxRange}.`;
+        } else if (guess > correctNumber) {
+          result.textContent = 'The number is too high! Try again.';
+          result.style.color = 'orange';
+          maxRange = guess - 1; // Update max range
+          hint.textContent = `Hint: The number is between ${minRange} and ${maxRange}.`;
+        } else {
+          result.textContent = `Congratulations! You guessed the number in ${attempts} attempts!`;
+          result.style.color = 'green';
+          hint.textContent = '';
+        }
+      }
+    }
+  </script>
+</body>
+</html>
+
